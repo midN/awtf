@@ -10,12 +10,12 @@ var (
 	stackName string
 
 	// SubCommands
-	ppCommand = cli.Command{
-		Name:    "print-params",
-		Aliases: []string{"pp"},
-		Usage:   "print existing cf stack params",
+	lpCommand = cli.Command{
+		Name:    "list-params",
+		Aliases: []string{"lp"},
+		Usage:   "List existing cf stack params",
 		Action: func(c *cli.Context) error {
-			err := cf.PrintParams(stackName)
+			err := cf.ListParams(stackName)
 
 			if err != nil {
 				return cli.NewExitError(err, 1)
@@ -38,7 +38,7 @@ var (
 		Aliases: []string{"cf"},
 		Usage:   "cloudformation related commands",
 		Subcommands: []cli.Command{
-			ppCommand,
+			lpCommand,
 		},
 	}
 )
