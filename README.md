@@ -15,9 +15,14 @@ Please take a look at AWS documentation on setting up credentials, there are mul
 
 **[AWS Credentials docs](http://docs.aws.amazon.com/cli/latest/topic/config-vars.html)**
 
-**NB!** Please note that `region` is not taken from Credentials file for some reason.
+**NB!** Default region is `eu-west-1`
 
-Therefore for region to correctly work with aws-sdk-go, for now please use `AWS_REGION` env variable.
+`awtf` now supports additional global flags for region and profile.
+
+## Usage
+Please use `awtf --help` to list actions.
+
+To get help for specific action add `--help` flag, for example `awtf cf lp --help`.
 
 ## Backlog / Ideas
 Work in Progress and future ideas can be found at [GitHub Project](https://github.com/midN/awtf/projects)

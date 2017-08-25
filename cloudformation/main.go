@@ -8,24 +8,20 @@ import (
 	"github.com/aws/aws-sdk-go/service/cloudformation"
 )
 
-func ListParams(stackName string) error {
-	if stackName == "" {
+type LpParams struct {
+	StackName string
+	Sess      *session.Session
+}
+
+func ListParams(lpParams LpParams) error {
+	if lpParams.StackName == "" {
 		return errors.New("Stack name is missing!")
 	}
 
-	// TODO: Move session to main or separate package?
-	// TODO: Describe where is region taken from in AWS.
-	// TODO: Add options to pass profile/region, example below
-	//sess := session.Must(session.NewSessionWithOptions(session.Options{
-	//	Profile: "X",
-	//	Config:  aws.Config{Region: aws.String("eu-west-1")},
-	//}))
-	sess := session.Must(session.NewSession())
-
-	cfSession := cloudformation.New(sess)
-	params := cloudformation.DescribeStacksInput{StackName: aws.String(stackName)}
-
+	cfSession := cloudformation.New(lpParams.Sess)
+	params := cloudformation.DescribeStacksInput{StackName: aws.String(lpParams.StackName)}
 	stackInfo, err := cfSession.DescribeStacks(&params)
+
 	if err != nil {
 		return err
 	}
