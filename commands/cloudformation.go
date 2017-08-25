@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"github.com/fatih/color"
 	cf "github.com/midN/awtf/cloudformation"
 	"gopkg.in/urfave/cli.v1"
 )
@@ -18,7 +19,8 @@ var (
 			err := cf.ListParams(stackName)
 
 			if err != nil {
-				return cli.NewExitError(err, 1)
+				redError := color.RedString(err.Error())
+				return cli.NewExitError(redError, 1)
 			} else {
 				return nil
 			}

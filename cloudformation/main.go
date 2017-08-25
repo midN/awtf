@@ -1,20 +1,16 @@
 package cloudformation
 
 import (
+	"errors"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/cloudformation"
-	"github.com/fatih/color"
-	"github.com/urfave/cli"
 )
 
 func ListParams(stackName string) error {
-	// TODO: Add wrapper function for Colorizing error-output, or maybe some other way?:)
-	stackNameMissing := color.RedString("Stack name is missing!")
-
 	if stackName == "" {
-		return cli.NewExitError(stackNameMissing, 1)
+		return errors.New("Stack name is missing!")
 	}
 
 	// TODO: Move session to main or separate package?
@@ -31,7 +27,7 @@ func ListParams(stackName string) error {
 
 	stackInfo, err := cfSession.DescribeStacks(&params)
 	if err != nil {
-		return cli.NewExitError(err, 1)
+		return err
 	}
 
 	// TODO: Print params with some nice table
