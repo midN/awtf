@@ -14,7 +14,7 @@ func main() {
 	app.Name = "AWTF"
 	app.Usage = "AWS CLI Wrapper for complicated aws cli commands"
 
-	app.Flags = flags.GlobalFlags()
+	app.Flags = flags.Flags()
 	app.Commands = commands.Commands()
 
 	app.Run(os.Args)

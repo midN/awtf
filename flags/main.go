@@ -2,7 +2,7 @@ package flags
 
 import "gopkg.in/urfave/cli.v1"
 
-func GlobalFlags() []cli.Flag {
+func Flags() []cli.Flag {
 	profileFlag := cli.StringFlag{
 		Name:  "profile, p",
 		Usage: "Optional AWS profile",
