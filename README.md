@@ -19,10 +19,18 @@ Please take a look at AWS documentation on setting up credentials, there are mul
 
 `awtf` now supports additional global flags for region and profile.
 
-## Usage
-Please use `awtf --help` to list actions.
+## Commands
+### List Params
+List params of existing CloudFormation Stack.
 
-To get help for specific action add `--help` flag, for example `awtf cf lp --help`.
+**Example:** `awtf cf lp --stack-name test`
+
+**Output:**
+
+|   Parameter Name   |     Parameter Value      |
+|--------------------|--------------------------|
+| Hello              | X                        |
+| Hello              | X                        |
 
 ## Backlog / Ideas
 Work in Progress and future ideas can be found at [GitHub Project](https://github.com/midN/awtf/projects)

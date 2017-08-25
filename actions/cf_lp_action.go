@@ -14,7 +14,7 @@ func CfLpAction() func(c *cli.Context) error {
 			Sess:      common.InitSession(c),
 		}
 
-		err := cloudformation.ListParams(lpParams)
+		err := cloudformation.ListParams(lpParams, c.App.Writer)
 
 		if err != nil {
 			redError := color.RedString(err.Error())
