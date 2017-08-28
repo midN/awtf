@@ -12,6 +12,7 @@ func CfLpAction() func(c *cli.Context) error {
 		lpParams := cloudformation.LpParams{
 			StackName: c.String("stack-name"),
 			Sess:      common.InitSession(c),
+			TableType: c.String("table-type"),
 		}
 
 		err := cloudformation.ListParams(lpParams, c.App.Writer)

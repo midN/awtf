@@ -2,6 +2,7 @@ package cloudformation
 
 import (
 	"errors"
+	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/cloudformation"
@@ -15,6 +16,7 @@ import (
 type LpParams struct {
 	StackName string
 	Sess      *session.Session
+	TableType string
 }
 
 type tableData [][]string
@@ -40,26 +42,41 @@ func ListParams(lpParams LpParams, writer io.Writer) error {
 
 	stackParams := stackInfo.Stacks[0].Parameters
 	data := sortedStackParams(stackParams)
-	printTable(data, writer)
+	printTable(data, writer, lpParams.TableType)
 
 	return nil
 }
 
-func printTable(data tableData, writer io.Writer) {
-	titleColor := color.New(color.FgCyan).SprintFunc()
-
+func printTable(data tableData, writer io.Writer, tableType string) {
 	table := tablewriter.NewWriter(writer)
-	// TODO: Add option to print as markdown
-	//table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-	//table.SetCenterSeparator("|")
-	// TODO: Make rowline optional
-	table.SetRowLine(true)
-	table.SetAutoFormatHeaders(false)
-	table.SetAlignment(tablewriter.ALIGN_LEFT)
 
-	table.SetHeader([]string{titleColor("Parameter Name"), titleColor("Parameter Value")})
+	switch tableType {
+	case "markdown":
+		setMarkdownTableAttributes(table)
+	default:
+		setDefaultTableAttributes(table)
+	}
+
+	setSharedTableAttributes(table)
+
 	table.AppendBulk(data)
 	table.Render()
+}
+
+func setMarkdownTableAttributes(table *tablewriter.Table) {
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
+}
+
+func setDefaultTableAttributes(table *tablewriter.Table) {
+	table.SetRowLine(true)
+}
+
+func setSharedTableAttributes(table *tablewriter.Table) {
+	titleColor := color.New(color.FgCyan).SprintFunc()
+	table.SetAutoFormatHeaders(false)
+	table.SetAlignment(tablewriter.ALIGN_LEFT)
+	table.SetHeader([]string{titleColor("Parameter Name"), titleColor("Parameter Value")})
 }
 
 func sortedStackParams(stackParams []*cloudformation.Parameter) tableData {
